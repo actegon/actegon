@@ -12,12 +12,6 @@ const straps = images.reduce(
   },
   [[], []] as Straps
 );
-
-// const IMAGES = 8;
-// const IMAGE_WIDTH;
-// const TOTAL_WIDTH = ((166 + 12) * IMAGES) / 2;
-
-console.log(straps);
 ---
 
 <div class="wrapper">
@@ -37,19 +31,6 @@ console.log(straps);
         </div>
       ))
     }
-    <!-- {[0, 1].map((offset) => (
-      <div class="images" offset={offset * 96} key={`images-${offset}`}>
-        {new Array(Math.floor(IMAGES / 2)).fill(null).map((_, index) => (
-          <Image src={`/wallit/image-${index * 2 + offset}.png`} key={`image-${offset}-${index}`} />
-        ))}
-        {new Array(Math.floor(IMAGES / 2)).fill(null).map((_, index) => (
-          <Image src={`/wallit/image-${index * 2 + offset}.png`} key={`image-${offset}-${index}`} />
-        ))}
-        {new Array(Math.floor(IMAGES / 2)).fill(null).map((_, index) => (
-          <Image src={`/wallit/image-${index * 2 + offset}.png`} key={`image-${offset}-${index}`} />
-        ))}
-      </div>
-    ))} -->
   </div>
   <strong>Wallit</strong>
   <span>One wallet to rule them all</span>
@@ -105,7 +86,7 @@ console.log(straps);
       width: 600px;
       transform-origin: center;
       transform: translate(calc(var(--x) * 2px), calc(var(--y) * -2px))
-        rotate(20deg) translateY(24px);
+        rotate(23deg) translateY(30%);
       div.images {
         animation: images 20s linear infinite;
         display: flex;

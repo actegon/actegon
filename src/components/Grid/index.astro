@@ -1,12 +1,18 @@
 ---
+import Aac from "./Aac.astro";
 import App from "./App.astro";
 import Armadillo from "./Armadillo.astro";
+import Undicat from "./Undicat.astro";
 import Wallit from "./Wallit.astro";
 ---
 
 <div class="wrapper">
-  <App area="undicat" />
-  <App area="aac" />
+  <App area="undicat">
+    <Undicat />
+  </App>
+  <App area="aac">
+    <Aac />
+  </App>
   <App area="armadillo">
     <Armadillo />
   </App>
