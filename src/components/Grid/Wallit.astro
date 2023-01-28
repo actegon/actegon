@@ -1,0 +1,123 @@
+---
+type Straps = [string[], string[]];
+const imageList = new Array(8).fill(null);
+const images = imageList.map((_, i) => {
+  return `/apps/wallit/screenshots/image-${i}.png`;
+});
+
+const straps = images.reduce(
+  (acc, image, i) => {
+    acc[i % 2].push(image);
+    return acc;
+  },
+  [[], []] as Straps
+);
+
+// const IMAGES = 8;
+// const IMAGE_WIDTH;
+// const TOTAL_WIDTH = ((166 + 12) * IMAGES) / 2;
+
+console.log(straps);
+---
+
+<div class="wrapper">
+  <div class="strap">
+    {
+      straps.map((strap) => (
+        <div class="images">
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+        </div>
+      ))
+    }
+    <!-- {[0, 1].map((offset) => (
+      <div class="images" offset={offset * 96} key={`images-${offset}`}>
+        {new Array(Math.floor(IMAGES / 2)).fill(null).map((_, index) => (
+          <Image src={`/wallit/image-${index * 2 + offset}.png`} key={`image-${offset}-${index}`} />
+        ))}
+        {new Array(Math.floor(IMAGES / 2)).fill(null).map((_, index) => (
+          <Image src={`/wallit/image-${index * 2 + offset}.png`} key={`image-${offset}-${index}`} />
+        ))}
+        {new Array(Math.floor(IMAGES / 2)).fill(null).map((_, index) => (
+          <Image src={`/wallit/image-${index * 2 + offset}.png`} key={`image-${offset}-${index}`} />
+        ))}
+      </div>
+    ))} -->
+  </div>
+  <strong>Wallit</strong>
+  <span>One wallet to rule them all</span>
+</div>
+
+<style lang="scss" define:vars={{ "number-of-images": images.length }}>
+  div.wrapper {
+    --image-width: 90px;
+    --image-spacing: 12px;
+    --total-width: calc(
+      ((var(--image-width) + var(--image-spacing)) * var(--number-of-images)) /
+        2
+    );
+    @keyframes images {
+      from {
+        transform: translateX(calc(var(--total-width) * -0.5));
+      }
+      to {
+        transform: translateX(calc(var(--total-width) * -1.5));
+      }
+    }
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid var(--colour-border);
+    background-color: var(--colour-foreground);
+    strong {
+      margin: 0;
+      margin: 0;
+      font-size: 32px;
+      line-height: 32px;
+      font-weight: 700;
+      position: relative;
+      display: block;
+      transform: translate(calc(var(--x) * -4px), calc(var(--y) * 4px));
+      margin-bottom: 4px;
+    }
+    span {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      opacity: 0.6;
+      display: block;
+      transform: translate(calc(var(--x) * -3px), calc(var(--y) * 3px));
+    }
+    div.strap {
+      position: absolute;
+      top: 0;
+      width: 600px;
+      transform-origin: center;
+      transform: translate(calc(var(--x) * 2px), calc(var(--y) * -2px))
+        rotate(20deg) translateY(24px);
+      div.images {
+        animation: images 20s linear infinite;
+        display: flex;
+        &:last-of-type {
+          padding-left: calc(var(--image-width) * 0.8);
+        }
+        img {
+          width: var(--image-width);
+          aspect-ratio: 1/0.6506024096;
+          margin: calc(var(--image-spacing) / 2);
+        }
+      }
+    }
+  }
+</style>

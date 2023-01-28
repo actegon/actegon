@@ -1,0 +1,27 @@
+---
+import App from "./App.astro";
+import Armadillo from "./Armadillo.astro";
+import Wallit from "./Wallit.astro";
+---
+
+<div class="wrapper">
+  <App area="undicat" />
+  <App area="aac" />
+  <App area="armadillo">
+    <Armadillo />
+  </App>
+  <App area="wallit">
+    <Wallit />
+  </App>
+</div>
+
+<style lang="scss">
+  div.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "undicat aac aac" "undicat armadillo wallit";
+    grid-gap: 12px;
+    width: 100%;
+  }
+</style>

@@ -25,22 +25,51 @@ const pageTitle = [title, "Actegon"].filter(Boolean).join(" | ");
   </body>
 </html>
 
-<style is:global>
+<style lang="scss" is:global>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap");
   :root {
-    --accent: 124, 58, 237;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      #da62c4 30%,
-      white 60%
-    );
+    /* --background-primary: rgb(255, 255, 255);
+    --background-primary-translucent: rgb(255, 255, 255, 0.7);
+    --background-secondary: rgb(250, 251, 255); */
+
+    --colour-background: rgb(255, 255, 255);
+    --colour-background-translucent: rgba(255, 255, 255, 0.72);
+    --colour-foreground: rgb(250, 251, 255);
+
+    --colour-border: rgb(237, 239, 245);
+
+    --colour-primary: #0066ff;
+    --colour-primary-translucent: #{transparentize(#0066ff, 0.8)};
+    --colour-accent: #ff1e00;
+    --colour-accent-hover: #{darken(#ff1e00, 5%)};
+    --colour-accent-active: #{darken(#ff1e00, 15%)};
+    // --colour-secondary: #b8c8e0;
+    --colour-secondary: #bdc2db;
+    --colour-secondary: #a6bad9;
+    // --colour-secondary: #9c9c9c;
+    --colour-font: #333a58;
+    --colour-font-translucent: #{transparentize(#333a58, 0.2)};
+    // --colour-font: #353535;
+
+    --max-width: 822px;
+    --font-code: "Fira Code", monospace;
+
+    --colour-red: #e9190f;
+
+    --code-background: rgb(30, 30, 30);
+    --code-border: rgb(46, 46, 46);
   }
+
   html {
     font-family: system-ui, sans-serif;
-    background-color: #f6f6f6;
+    background-color: var(--colour-background);
   }
   code {
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
       DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  }
+  * {
+    box-sizing: border-box;
   }
 </style>
