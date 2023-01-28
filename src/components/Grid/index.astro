@@ -29,5 +29,15 @@ import Wallit from "./Wallit.astro";
     grid-template-areas: "undicat aac aac" "undicat armadillo wallit";
     grid-gap: 12px;
     width: 100%;
+    @media screen and (max-width: 800px) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas: "undicat aac" "armadillo wallit";
+    }
+    @media screen and (max-width: 640px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr;
+      grid-template-areas: "undicat" "aac" "armadillo" "wallit";
+    }
   }
 </style>

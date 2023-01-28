@@ -39,6 +39,9 @@ const straps = images.reduce(
 <style lang="scss" define:vars={{ "number-of-images": images.length }}>
   div.wrapper {
     --image-width: 90px;
+    @media screen and (max-width: 640px) {
+      --image-width: 126px;
+    }
     --image-spacing: 12px;
     --total-width: calc(
       ((var(--image-width) + var(--image-spacing)) * var(--number-of-images)) /
@@ -83,10 +86,13 @@ const straps = images.reduce(
     div.strap {
       position: absolute;
       top: 0;
+      right: 0%;
       width: 600px;
-      transform-origin: center;
+      transform-origin: top center;
       transform: translate(calc(var(--x) * 2px), calc(var(--y) * -2px))
-        rotate(23deg) translateY(30%);
+        translateX(50%) rotate(20deg) translateY(20%);
+      // transform: translate(calc(var(--x) * 2px), calc(var(--y) * -2px))
+      //   rotate(23deg) translateY(0%);
       div.images {
         animation: images 20s linear infinite;
         display: flex;
