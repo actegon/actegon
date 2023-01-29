@@ -1,19 +1,25 @@
 ---
 export type Props = {
   area: string;
+  link?: string;
 };
 
-const { area } = Astro.props;
+const { area, link } = Astro.props;
 ---
 
 <div class="wrapper" id={area}>
-  <div class="card">
+  <a
+    href={link}
+    target={link?.startsWith("http") ? "_blank" : undefined}
+    rel={link?.startsWith("http") ? "noreferrer" : undefined}
+    class="card"
+  >
     <slot>
       <div class="placeholder">
         Placeholder ({area})
       </div>
     </slot>
-  </div>
+  </a>
 </div>
 
 <script define:vars={{ area }}>
@@ -58,15 +64,19 @@ const { area } = Astro.props;
     @media (hover: hover) {
       perspective: 1000px;
     }
-    div.card {
+    a.card {
       width: 100%;
       height: 100%;
-      @media (hover: hover) {
-        transform: rotate3d(var(--y), var(--x), 0, -8deg);
-      }
+      display: block;
+      text-decoration: none;
+      cursor: pointer;
       border-radius: 6px;
       position: relative;
       overflow: hidden;
+      color: inherit;
+      @media (hover: hover) {
+        transform: rotate3d(var(--y), var(--x), 0, -8deg);
+      }
       div.placeholder {
         width: 100%;
         height: 100%;
