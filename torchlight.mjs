@@ -55,8 +55,6 @@ function transform(tree, options) {
         highlighted
       );
 
-      console.log("code", code);
-
       const lines = block.styles.split(";");
       const styles = lines
         .filter(
