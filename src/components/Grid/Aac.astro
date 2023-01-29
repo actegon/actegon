@@ -2,6 +2,7 @@
 ---
 
 <div class="wrapper">
+  <label>Coming Soon</label>
   <strong>AAC</strong>
   <span>Your goto text-to-speech companion</span>
 </div>
@@ -35,6 +36,19 @@
       opacity: 0.6;
       display: block;
       transform: translate(calc(var(--x) * -3px), calc(var(--y) * 3px));
+    }
+    label {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      z-index: 1;
+      border-radius: 500px;
+      padding: 8px 12px;
+      border: 1px solid var(--colour-border);
+      font-size: 14px;
+      font-weight: 500;
+      background-color: var(--colour-foreground-translucent);
+      backdrop-filter: blur(4px);
     }
   }
 </style>
