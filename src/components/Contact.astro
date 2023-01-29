@@ -1,0 +1,176 @@
+---
+---
+
+<form id="contact">
+  <h3>We would love to hear from you, Get in touch 👋</h3>
+  <div class="row">
+    <label>
+      <span>Your name</span>
+      <input placeholder="John Doe" name="name" type="text" />
+    </label>
+    <label>
+      <span>Your email</span>
+      <input placeholder="john@doe.com" name="email" type="email" />
+    </label>
+  </div>
+  <label>
+    <span>Your message to us</span>
+    <textarea placeholder="I want to build a ..." name="message"></textarea>
+  </label>
+  <div class="actions">
+    <button type="submit"
+      >Send message
+      <svg width="16px" height="16px" viewBox="0 0 82 82" version="1.1">
+        <g
+          id="Symbols"
+          stroke="none"
+          stroke-width="1"
+          fill="none"
+          fill-rule="evenodd"
+        >
+          <g
+            id="paperplane.fill"
+            transform="translate(-1407.000000, -622.000000)"
+            fill="white"
+            fill-rule="nonzero"
+          >
+            <g id="Symbols" transform="translate(519.616380, 620.414100)">
+              <g id="Regular-S" transform="translate(887.773000, 1.562500)">
+                <path
+                  d="M48.29102,81.05465 C51.31832,81.05465 53.41792,78.41793 54.98042,74.414025 L79.78512,9.6191 C80.56642,7.666 81.00582,5.9082 81.00582,4.4433 C81.00582,1.7089 79.29682,0 76.61132,0 C75.14652,0 73.38862,0.4882 71.43552,1.2207 L6.20112,26.2695 C2.7832,27.539 -1.77635684e-15,29.6875 -1.77635684e-15,32.7636 C-1.77635684e-15,36.6211 3.02734,37.8906 6.88472,39.0136 L26.36722,44.9707 C29.10152,45.8007 30.51762,45.8007 32.37302,44.0918 L74.70702,4.7851 C75.24412,4.2968 75.87892,4.3945 76.26952,4.7363 C76.70902,5.1269 76.75782,5.8105 76.26952,6.3476 L37.15822,48.8769 C35.54682,50.6347 35.40042,51.9531 36.27932,54.8339 L41.94332,73.779259 C43.11522,77.83199 44.38472,81.05465 48.29102,81.05465 Z"
+                  id="Path"></path>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </button>
+    <span
+      >or send us an email at <a href="mailto:hello@actegon.com"
+        >hello@actegon.com</a
+      ></span
+    >
+  </div>
+</form>
+
+<script>
+  const form = document.querySelector("#contact");
+
+  if (form) {
+    const _handleSubmit = (event: any) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const inputs = [...form.querySelectorAll("input,textarea")];
+      const values = inputs.reduce(
+        (acc, input: any) => ({ ...acc, [input.name]: input.value }),
+        {}
+      );
+
+      // todo: implement sending logic
+    };
+    form.addEventListener("submit", _handleSubmit);
+  }
+</script>
+
+<style lang="scss">
+  form {
+    width: calc(100vw - 48px);
+    max-width: var(--max-width);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 128px;
+    h3 {
+      font-size: 32px;
+      margin: 0;
+      margin-bottom: 96px;
+      max-width: 520px;
+    }
+    div.row {
+      display: flex;
+      gap: 16px;
+    }
+    label {
+      flex: 1;
+      span {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+      input {
+        height: 48px;
+        padding-inline: 16px;
+      }
+      textarea {
+        padding: 12px 16px;
+        height: 128px;
+      }
+      input,
+      textarea {
+        outline: none;
+        resize: none;
+        border: 1px solid var(--colour-border);
+        background-color: var(--colour-foreground);
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 14px;
+        width: 100%;
+        transition: 120ms;
+        &:focus {
+          border-color: var(--colour-primary);
+          box-shadow: 0 0 0 4px var(--colour-primary-translucent);
+        }
+      }
+    }
+    div.actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      button {
+        height: 48px;
+        border: none;
+        border-radius: 6px;
+        background-color: #e01a00;
+        color: white;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 14px;
+        padding-inline: 24px;
+        cursor: pointer;
+        transition: 120ms;
+        outline: none;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        white-space: nowrap;
+        &:hover {
+          background-color: darken(#e01a00, 5%);
+          transform: scale(1.02);
+        }
+        &:active {
+          background-color: darken(#e01a00, 15%);
+          transform: scale(0.98);
+        }
+        &:focus {
+          box-shadow: 0 0 0 4px transparentize(#e01a00, 0.8);
+        }
+      }
+      span {
+        font-size: 14px;
+        color: var(--colour-font-translucent);
+        font-weight: 500;
+        a {
+          text-decoration: none;
+          color: var(--colour-primary);
+          outline: none;
+          &:hover,
+          &:focus {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+</style>
