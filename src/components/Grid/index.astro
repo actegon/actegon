@@ -28,11 +28,13 @@ import Wallit from "./Wallit.astro";
     grid-template-rows: 1fr 1fr;
     grid-template-areas: "undicat aac aac" "undicat armadillo wallit";
     grid-gap: 12px;
-    width: 100%;
+    margin: auto;
+    width: calc(100vw - 48px);
+    max-width: 1200px;
     @media screen and (max-width: 800px) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
       grid-template-rows: 1fr 1fr;
-      grid-template-areas: "undicat aac" "armadillo wallit";
+      grid-template-areas: "aac aac aac armadillo armadillo" "wallit wallit undicat undicat undicat";
     }
     @media screen and (max-width: 640px) {
       grid-template-columns: 1fr;
