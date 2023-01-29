@@ -1,0 +1,102 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Not Found">
+  <div class="wrapper">
+    <div>
+      <a href="/"
+        ><svg
+          viewBox="0 0 72 60"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <g
+            id="Page-1"
+            stroke="none"
+            stroke-width="1"
+            fill="none"
+            fill-rule="evenodd"
+          >
+            <g
+              id="arrow.right"
+              transform="translate(-1414.000000, -631.000000)"
+              fill="currentColor"
+              fill-rule="nonzero"
+            >
+              <g id="Symbols" transform="translate(524.188620, 627.787100)">
+                <g
+                  id="Regular-S"
+                  transform="translate(925.659440, 32.958985) scale(-1, 1) translate(-925.659440, -32.958985) translate(890.137000, 3.662100)"
+                >
+                  <path
+                    d="M71.04488,29.2969 C71.04488,28.2227 70.55668,27.1973 69.67778,26.3672 L44.48238,1.2207 C43.60348,0.3906 42.62698,0 41.60158,0 C39.45318,0 37.79298,1.6113 37.79298,3.8086 C37.79298,4.834 38.13478,5.8594 38.86718,6.543 L45.60548,13.5254 L62.10938,28.418 L62.98828,26.2696 L49.99998,25.3418 L3.90628,25.3418 C1.61138,25.3418 1.77635684e-15,27.002 1.77635684e-15,29.2969 C1.77635684e-15,31.5918 1.61138,33.252 3.90628,33.252 L49.99998,33.252 L62.98828,32.3242 L62.10938,30.2246 L45.60548,45.0684 L38.86718,52.0508 C38.13478,52.7344 37.79298,53.7598 37.79298,54.78518 C37.79298,56.98244 39.45318,58.59377 41.60158,58.59377 C42.62698,58.59377 43.60348,58.20314 44.48238,57.37307 L69.67778,32.2266 C70.55668,31.3965 71.04488,30.3711 71.04488,29.2969 Z"
+                    id="Path"></path>
+                </g>
+              </g>
+            </g>
+          </g>
+        </svg>Back to home</a
+      >
+      <h1>Page not found</h1>
+      <p>Are you sure you're on the site?</p>
+    </div>
+  </div>
+  <h2>404</h2>
+</Layout>
+
+<style lang="scss">
+  div.wrapper {
+    height: 60vh;
+    width: calc(100vw - 48px);
+    max-width: var(--max-width);
+    margin: auto;
+    div {
+      margin-top: 10vh;
+      a {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--colour-primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 500;
+        svg {
+          height: 14px;
+          width: 14px;
+          transition: 120ms;
+        }
+        &:hover {
+          text-decoration: underline;
+          svg {
+            transform: translateX(-4px);
+          }
+        }
+      }
+      h1 {
+        margin: 0;
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      p {
+        margin: 0;
+        font-weight: 500;
+        opacity: 0.8;
+      }
+    }
+  }
+  h2 {
+    position: absolute;
+    font-size: 30vh;
+    opacity: 0.1;
+    margin: 0;
+    right: 0;
+    top: 0;
+    font-weight: 900;
+    transform: translate(15%, 30%);
+    color: var(--colour-accent);
+  }
+</style>
