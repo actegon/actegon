@@ -1,4 +1,6 @@
 ---
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 
 export interface Props {
@@ -22,6 +24,8 @@ const pageTitle = [title, "Actegon"].filter(Boolean).join(" | ");
   <body>
     <Header />
     <slot />
+    <Contact />
+    <Footer />
   </body>
 </html>
 
@@ -64,6 +68,15 @@ const pageTitle = [title, "Actegon"].filter(Boolean).join(" | ");
   html {
     font-family: system-ui, sans-serif;
     background-color: var(--colour-background);
+    color: var(--colour-font);
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
   }
   code {
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono,

@@ -1,0 +1,128 @@
+---
+const year = new Date().getFullYear();
+---
+
+<div class="wrapper">
+  <footer>
+    <div class="column">
+      <img src="/branding/logo_caption.png" alt="Actegon Logo" />
+      <label>
+        <span>Email</span>
+        <a href="mailto:hello@actegon.com">hello@actegon.com</a>
+      </label>
+      <label>
+        <span>Address</span>
+        <a>1064 Budapest, Hungary</a>
+      </label>
+      <label>
+        <span>VIES</span>
+        <a>HU27181326</a>
+      </label>
+      <label>
+        <span>Registration Number</span>
+        <a>01-09-387422</a>
+      </label>
+      <label>
+        <span>D-U-N-S©</span>
+        <a>85-182-0890</a>
+      </label>
+    </div>
+    <div class="column">
+      <strong>Company</strong>
+      <a href="/">Home</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+    <div class="column">
+      <strong>Applications</strong>
+      <a href="https://undicat.com" target="_blank" rel="noreferrer">Undicat</a>
+      <a href="/aac">AAC</a>
+      <a href="/armadillo">Armadillo</a>
+      <a href="/wallit">Wallit</a>
+    </div>
+    <div class="column">
+      <strong>Legal</strong>
+      <a href="/legal/terms-of-service">Terms of Service</a>
+      <a href="/legal/privacy-policy">Privacy Policy</a>
+    </div>
+  </footer>
+  <div class="bottom">
+    <span
+      >Actegon Solutions Kft &middot; {year} &middot; All Rights Reserved ©</span
+    >
+  </div>
+</div>
+
+<style lang="scss">
+  div.wrapper {
+    background-color: var(--colour-foreground);
+    border-top: 1px solid var(--colour-border);
+    footer {
+      width: calc(100vw - 48px);
+      max-width: var(--max-width);
+      margin: auto;
+      display: flex;
+      gap: 16px;
+      padding-bottom: 56px;
+      @media screen and (max-width: 640px) {
+        flex-direction: column;
+      }
+      div.column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-top: 32px;
+        img {
+          max-width: min(calc(100% - 24px), 30vw);
+          margin-bottom: 16px;
+        }
+        strong {
+          margin-bottom: 32px;
+          font-weight: 700;
+          font-size: 16px;
+          text-transform: uppercase;
+        }
+        & > label,
+        & > a {
+          margin-bottom: 16px;
+        }
+        label {
+          span {
+            margin-bottom: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: block;
+            opacity: 0.6;
+          }
+        }
+        label {
+          span {
+          }
+          a {
+          }
+        }
+        a {
+          text-decoration: none;
+          font-weight: 500;
+          font-size: 14px;
+          &[href] {
+            color: var(--colour-primary);
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+    div.bottom {
+      background-color: var(--colour-font);
+      color: white;
+      display: flex;
+      justify-content: center;
+      font-size: 12px;
+      padding: 16px 24px;
+      font-weight: 500;
+      color: transparentize(white, 0.2);
+    }
+  }
+</style>
