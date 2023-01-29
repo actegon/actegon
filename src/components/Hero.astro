@@ -150,10 +150,16 @@ const banner = {
       color: var(--colour-accent);
       margin: 0;
       margin-bottom: 24px;
-      background: -webkit-linear-gradient(175deg, #ff1e00, rgb(210, 57, 27));
-      background: -o-linear-gradient(175deg, #ff1e00, rgb(210, 57, 27));
-      background: -moz-linear-gradient(175deg, #ff1e00, rgb(210, 57, 27));
-      background: linear-gradient(175deg, #ff1e00, rgb(210, 57, 27));
+      background: linear-gradient(
+        -45deg,
+        #ee7752,
+        #ff1e00,
+        #ff0024,
+        #ff4a00,
+        #ff2f00
+      );
+      background-size: 400% 400%;
+      animation: gradient 5s ease infinite;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       // todo: animation
