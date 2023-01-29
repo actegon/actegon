@@ -1,12 +1,83 @@
 ---
+const banner = {
+  link: "/aac",
+  label: "AAC is released!",
+};
 ---
 
 <div class="wrapper">
+  {
+    banner && (
+      <a href={banner.link} class="banner gradient">
+        <div>
+          <strong>NEW</strong>
+          <span>{banner.label}</span>
+
+          <svg
+            viewBox="0 0 79 67"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <g
+              id="Page-1"
+              stroke="none"
+              stroke-width="1"
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <g
+                id="arrow.right"
+                transform="translate(-2894.000000, -627.000000)"
+                fill="currentColor"
+                fill-rule="nonzero"
+              >
+                <g id="Symbols" transform="translate(524.188620, 627.787100)">
+                  <g id="Black-S" transform="translate(2369.927000, 0.000000)">
+                    <path
+                      d="M78.56448,32.7149 C78.56448,30.5664 77.63668,28.2227 76.26958,26.8555 L51.90428,2.4902 C50.29298,0.8789 48.29098,0 46.43558,0 C41.60158,0 38.52538,3.2715 38.52538,7.5195 C38.52538,10.0586 39.69728,11.8164 41.21098,13.2813 L49.99998,21.9727 L59.52148,30.8594 L63.72068,25.5371 L45.89848,24.707 L8.49608,24.707 C3.36918,24.707 1.77635684e-15,27.8809 1.77635684e-15,32.7149 C1.77635684e-15,37.5488 3.36918,40.7227 8.49608,40.7227 L45.89848,40.7227 L63.72068,39.8926 L59.52148,34.5703 L49.99998,43.457 L41.21098,52.0996 C39.69728,53.5645 38.52538,55.3223 38.52538,57.8613 C38.52538,62.10938 41.60158,65.38087 46.43558,65.38087 C48.29098,65.38087 50.29298,64.50196 51.90428,62.89063 L76.26958,38.5742 C77.63668,37.207 78.56448,34.8633 78.56448,32.7149 Z"
+                      id="Path"
+                    />
+                  </g>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </a>
+    )
+  }
   <h1>Actegon Solutions</h1>
   <h2>Independent software developers, always working on something new.</h2>
 </div>
 
 <style lang="scss">
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  *.gradient {
+    background: linear-gradient(175deg, #ff1e00, rgb(210, 57, 27));
+    background: linear-gradient(
+      -45deg,
+      #ee7752,
+      #ff1e00,
+      #ff0024,
+      #ff4a00,
+      #ff2f00
+    );
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+  }
+
   div.wrapper {
     min-height: 80vh;
     display: flex;
@@ -17,6 +88,62 @@
     width: calc(100vw - 48px);
     max-width: var(--max-width);
     margin: auto;
+    position: relative;
+    a.banner {
+      user-select: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 64px;
+      text-decoration: none;
+
+      padding: 2px;
+      border-radius: 10px;
+      transition: 320ms;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.02);
+        svg {
+          transform: translateX(4px);
+        }
+      }
+      &:active {
+        transform: scale(0.98);
+        svg {
+          transform: translateX(6px);
+        }
+      }
+      div {
+        border-radius: 8px;
+        background-color: var(--colour-background-overlay);
+        display: flex;
+        align-items: center;
+        padding: 4px;
+        color: darken(#ff1e00, 5%);
+
+        svg {
+          width: 16px;
+          margin-left: auto;
+          margin-right: 8px;
+          transition: 320ms;
+        }
+
+        strong {
+          font-size: 12px;
+          color: white;
+          background-color: var(--colour-accent);
+          font-weight: 600;
+          padding: 6px 16px;
+          display: block;
+          border-radius: 4px;
+          margin-right: 8px;
+        }
+        span {
+          font-size: 14px;
+          font-weight: 600;
+        }
+      }
+    }
     h1 {
       font-size: 4rem;
       font-weight: 900;

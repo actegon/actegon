@@ -3,6 +3,94 @@
 
 <header>
   <nav>
+    <a href="/">
+      <img src="/branding/logo.png" alt="Actegon Logo" />
+    </a>
+    <div>
+      <a href="/#apps">
+        <span> Our apps</span>
+      </a>
+      <a href="/blog">
+        <span> Blog</span>
+      </a>
+      <a href="#contact">
+        <span> Get in touch</span>
+      </a>
+    </div>
     <!-- <a href="/"> Actegon</a> -->
   </nav>
 </header>
+
+<style lang="scss">
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background-color: var(--colour-background-translucent);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--colour-border);
+    nav {
+      width: calc(100vw - 48px);
+      max-width: var(--max-width);
+      display: flex;
+      align-items: center;
+      margin: auto;
+      height: 80px;
+      justify-content: space-between;
+      img {
+        width: 56px;
+        display: block;
+        margin: -12px;
+      }
+      div {
+        display: flex;
+        gap: 32px;
+        height: 100%;
+        align-items: center;
+        a {
+          font-size: 14px;
+          font-weight: 500;
+          color: inherit;
+          text-decoration: none;
+
+          position: relative;
+          display: block;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          &:hover {
+            color: var(--colour-accent);
+            span {
+              transform: translateY(-2px);
+            }
+            span::after {
+              transform: translateY(2px);
+              opacity: 1;
+              left: 0;
+              right: 0;
+            }
+          }
+          span {
+            transition: 120ms;
+            position: relative;
+            // text-transform: uppercase;
+            font-weight: 600;
+            &::after {
+              transition: 120ms;
+              position: absolute;
+              content: "";
+              display: block;
+              height: 2px;
+              left: 50%;
+              right: 50%;
+              opacity: 0;
+              bottom: -4px;
+              background-color: var(--colour-accent);
+              border-radius: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
