@@ -1,14 +1,27 @@
 ---
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog");
+const timeline = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const last = timeline[0];
+
 const banner = {
-  link: "/aac",
-  label: "AAC is released!",
+  link: last?.data?.link || `/blog/${last.slug}`,
+  label: last.data.title,
 };
 ---
 
 <div class="wrapper">
   {
     banner && (
-      <a href={banner.link} class="banner gradient">
+      <a
+        href={banner.link}
+        target={banner.link.startsWith("http") ? "_blank" : undefined}
+        class="banner gradient"
+      >
         <div>
           <strong>NEW</strong>
           <span>{banner.label}</span>

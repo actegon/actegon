@@ -1,0 +1,117 @@
+div.article-content {
+  img {
+    display: block;
+    margin-top: 16px;
+    width: 100%;
+    border-radius: 6px;
+  }
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    margin-top: 32px;
+  }
+  h1 {
+    font-size: 48px;
+    margin-top: 32px;
+  }
+  h2 {
+    margin-top: 24px;
+  }
+  h3 {
+    margin-top: 16px;
+  }
+  p {
+    margin: 0;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+  a {
+    color: var(--colour-primary);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  pre {
+    font-size: 0.875rem;
+    background: var(--code-background);
+    border: 1px solid var(--code-border);
+    border-radius: 6px;
+    font-weight: 500 !important;
+    max-width: 100%;
+    overflow: auto;
+    margin: 0;
+    margin-top: 24px;
+  }
+
+  pre code {
+    display: block;
+    min-width: -webkit-max-content;
+    min-width: -moz-max-content;
+    min-width: max-content;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    // font-size: 0.875rem !important;
+    // font-family: var(--font-code) !important;
+  }
+
+  code .line-number,
+  code .summary-caret {
+    margin-right: 8px;
+  }
+
+  .torchlight .line {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-block: 1px;
+  }
+
+  .torchlight.has-focus-lines .line:not(.line-focus) {
+    filter: blur(0.095rem);
+    opacity: 0.4;
+    transition: filter 0.35s, opacity 0.35s;
+  }
+
+  .torchlight.has-focus-lines:hover .line:not(.line-focus) {
+    filter: blur(0);
+    opacity: 1;
+  }
+
+  .torchlight summary:focus {
+    outline: none;
+  }
+
+  .torchlight details > summary::-webkit-details-marker,
+  .torchlight details > summary::marker {
+    display: none;
+  }
+
+  .torchlight details .summary-caret:after {
+    pointer-events: none;
+  }
+
+  .torchlight .summary-caret-empty:after,
+  .torchlight details .summary-caret-end:after,
+  .torchlight details .summary-caret-middle:after {
+    content: " ";
+  }
+
+  .torchlight details[open] .summary-caret-start:after {
+    content: "-";
+  }
+
+  .torchlight details:not([open]) .summary-caret-start:after {
+    content: "+";
+  }
+
+  .torchlight details[open] .summary-hide-when-open {
+    display: none;
+  }
+
+  .torchlight details:not([open]) .summary-hide-when-open {
+    display: inline;
+  }
+}

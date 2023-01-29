@@ -1,0 +1,151 @@
+---
+import { getCollection } from "astro:content";
+import ArticleBanner from "../components/ArticleBanner.astro";
+import Layout from "../layouts/Layout.astro";
+
+const posts = await getCollection("blog");
+const [featured, ...timeline] = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const meta = [
+  featured.data.date.toLocaleDateString(),
+  featured.data.author,
+].filter(Boolean);
+---
+
+<Layout title="Blog">
+  <div class="header">
+    <h2>The blog</h2>
+    <h3>Articles written by us</h3>
+    <span>Just about everything but the weather</span>
+  </div>
+  <a
+    class="featured"
+    href={featured.data.link || `/blog/${featured.slug}`}
+    target={featured.data.link ? "_blank" : undefined}
+  >
+    {
+      featured.data.banner && (
+        <div class="img">
+          <img src={featured.data.banner} alt={featured.data.title} />
+        </div>
+      )
+    }
+    <div>
+      <label>{meta.join(" · ")}</label>
+      <strong>{featured.data.title}</strong>
+      <span>{featured.data.subtitle}</span>
+    </div>
+  </a>
+  <div class="articles">
+    {
+      timeline.map((post) => (
+        <ArticleBanner
+          slug={post.slug}
+          banner={post.data.banner}
+          title={post.data.title}
+          subtitle={post.data.subtitle}
+          author={post.data.author}
+          date={post.data.date}
+          link={post.data.link}
+        />
+      ))
+    }
+  </div>
+</Layout>
+
+<style lang="scss">
+  div.header {
+    text-align: center;
+    padding-top: 64px;
+    padding-bottom: 24px;
+    width: calc(100vw - 48px);
+    max-width: var(--max-width);
+    margin: auto;
+    h2 {
+      margin: 0;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: var(--colour-accent);
+    }
+    h3 {
+      margin: 0;
+      font-size: 48px;
+    }
+    span {
+      font-size: 16px;
+      display: block;
+      font-weight: 500;
+      opacity: 0.8;
+      margin-top: 8px;
+    }
+  }
+
+  a.featured {
+    // aspect-ratio: 16 / 9;
+    // background-color: var(--colour-foreground);
+    display: block;
+    width: calc(100vw - 48px);
+    max-width: var(--max-width);
+    margin: auto;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
+      strong {
+        text-decoration: underline;
+      }
+    }
+    // background-size: cover;
+    // background-position: center;
+    // overflow: hidden;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: flex-end;
+    div.img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 6px;
+      border: 1px solid var(--colour-border);
+      overflow: hidden;
+      img {
+        transition: 320ms;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    div {
+      margin-top: 12px;
+      * {
+        display: block;
+        margin: 0;
+      }
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0.8;
+      }
+      strong {
+        font-size: 32px;
+        margin-top: 4px;
+        margin-bottom: 8px;
+      }
+      span {
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  }
+  div.articles {
+    margin-top: 48px;
+    margin-bottom: 256px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+</style>

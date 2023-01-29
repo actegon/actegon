@@ -1,0 +1,234 @@
+---
+title: "We just released AAC"
+subtitle: "Our newest application is freshly out of the oven"
+date: "2023-02-01"
+---
+
+# Hosting a Next.js app on S3
+
+Hosting a next.js site on vercel is great, I have been using it a lot but let’s face it; there are times when it’s just overkill.
+
+I have recently rewrote the whole landingpage of Unditcat using next.js but when started testing it’s performance on vercel, I wasn’t completely satisfied. Even though everything was hardcoded in the app it took way longer to load than a regular JAMStack site, not to mention cold runs on vercel, which took over 2-3 seconds to load the site, which was unacceptable.
+
+So I decided to switch to static site hosting, since I didn’t use any of next.js’ vercel-specific features anyway.
+
+Using AWS S3 has several advanteges to vercel; not only it will be way faster, with proper caching using AWS Cloudfront, it’s just way more convinient if someone is already using AWS.
+
+There are limitations of using S3 rather than Vercel, of course; since S3 is only a file storage, there is no way to utilise next’s SSR or ISG - all the files should be present at the time of uploading, not to mention middlewares, which won’t work either.
+
+There are other great solutions, created specifically for static, jam-stack websites - such as astro or gatsby, all of which would be a better solution. I decided to go with next.js because of it’s developer experience - it’s one of the best I have ever used.
+
+So, after playing around with next and S3, I decided to create a CLI tool to deploy any next.js site on S3 and configure everything on AWS for the site.
+
+_TLDR; hosting a next.js app on S3 is not a reliable solution for everyone, however, it is a great option to host static sites - this site is hosted on S3 as well._
+
+## Hosting a site on S3
+
+### Configure AWS
+
+Hosting any kind of static websites on AWS has a couple of prerequisits - there are lot’s of great tutorials on how to achieve this, so I will only give a breif list of all the things you will need to set up before hosting anything on S3.
+
+1. **Create a bucket** - this is where your files will be stored
+2. **Create the cloudfront distribution** - we will use cloudfront to cache our site
+3. **Connect Route53** - so the site will be available under your domain
+
+### Using the CLI
+
+First install the package to your local machine:
+
+```bash
+npm i -g next-s3
+```
+
+After logging in to the AWS cli locally, we can configure the site to use the specific Bucket, Cloudfront Distribution and profile we created earlier.
+
+One way of achieving this is by using a dotenv file:
+
+```env
+NEXT_S3_BUCKET = <name of the bucket>
+NEXT_S3_DISTRIBUTION = <id of the cloudfront distribution>
+NEXT_S3_PROFILE = <id of the profile to be used>
+```
+
+Apart from the name of the bucket, all the other options are optional, if you wish to handle cache invalidation yourself.
+
+For the complete documentation and more options, check out the [package’s github repo](https://github.com/szalaybalazs/next-s3).
+
+After everything is set up, you have no other job than to run the deploy command from the root directory of your project:
+
+```bash
+next-s3 deploy
+```
+
+Assuming everything is set up correctly, it might take between a few seconds and a couple of minutes to upload everything to S3, depending on the size of your project.
+
+## How it all works
+
+Uploading a simple JAM-stack site to S3 isn’t as easy as it should be - there are lot’s of small steps needed for a site to work as expected. So, here is a breakdown of what the package is doing, in case you would like to do it manually:
+
+### 1. Exporting the site
+
+Before we could even start uploading the site, first we need to export the next.js project. This often times has a couple of catches, such as when you are using next’s built-in image component.
+
+Unfortunately, there is no automatic solutions for all the issues, usually it depends on the developer to come up with a solution for them.
+
+For example, for the issue from above, you could start using some kind of other CDN - designed specifically for image hosting, which is a built-in feature in next.js, you just have to play with the configs a bit.
+
+### 2. Uploading files
+
+After everything is generated the next logical step is uploading all the files to S3, however, there is a small catch; there is no straight forward way to tell S3 to load html files without the extension - which means that we have to upload all the files without it’s extension, storing the file format and other cache settings in the file’s header.
+
+This can be easily achieved by using the official node.js AWS sdk:
+
+```ts
+const uploadFile = async (file: string, bucket: string, s3: AWS.S3, bar: cliProgress.SingleBar): Promise<true> => {
+  const content = fs.readFileSync(path.join(process.cwd(), file));
+  const Key = file.replace('./out/', '');
+  const params = {
+    Bucket: bucket,
+    Key,
+    Body: content,
+    ContentType: mime.lookup(file.split('.').pop() || file) as any,
+    CacheControl: 'immutable,public',
+  };
+
+  await s3.upload(params).promise();
+
+  if (file.endsWith('.html')) {
+    const copyTarget = Key.replace(/\.html$/, '');
+    const copyParams = {
+      Bucket: bucket,
+      CopySource: `/${bucket}/${Key}`,
+      Key: copyTarget,
+    };
+    await s3.copyObject(copyParams).promise();
+  }
+  bar.increment(1);
+
+  return true;
+};
+```
+
+Sure, there is a huge room to optimise the code above, but it get’s the job done. It is used to upload everything from the `out` directory - excluding all the meta files, just as `DS_Store`.
+
+After the file get’s uploaded to it’s desired destination, every HTML file get’s duplicated and renamed to it’s extension-less equivalent. This step doesn’t even require any kind of file upload, since everything happens straight on S3.
+
+### 3. Configuring our bucket.
+
+After uploading all the files for the first time we need to make sure that the bucket is configured correctly to be used for website hosting.
+
+Although I am using node.js in the examples, all of these steps can be achieved using any of AWS’ clients.
+
+1. **Configuring website hosting**
+   We have to specify both the document returned in case of an error and also the index document.
+
+```ts
+const websiteParams = {
+  Bucket: bucket,
+  ContentMD5: '',
+  WebsiteConfiguration: {
+    ErrorDocument: {
+      Key: '404.html',
+    },
+    IndexDocument: {
+      Suffix: 'index.html',
+    },
+  },
+};
+await s3.putBucketWebsite(websiteParams).promise();
+```
+
+Since next.js always generates a `404.html` and an `index.html`, we can just simply hardcode these values.
+
+2. **Configuring bucket access**
+   We also have to tell S3 to allow public access to the bucket for anyone on the internet, so we can actually show the site.
+
+```ts
+const policyParams = {
+  Bucket: bucket,
+  PublicAccessBlockConfiguration: {
+    BlockPublicAcls: false,
+    BlockPublicPolicy: false,
+    IgnorePublicAcls: false,
+    RestrictPublicBuckets: false,
+  },
+};
+await s3.putPublicAccessBlock(policyParams).promise();
+```
+
+4. **Configuring IAM policies**
+   The last step in configuring the bucket is to allow allow access to the files using a Policy Statement. This is to further ensure everyone has **read** access to the files - including Cloudfront.
+
+```ts
+const policy = JSON.stringify({
+  Version: '2012-10-17',
+  Statement: [
+    {
+      Sid: 'PublicReadGetObject',
+      Effect: 'Allow',
+      Principal: '*',
+      Action: ['s3:GetObject'],
+      Resource: [`arn:aws:s3:::${bucket}/*`],
+    },
+  ],
+});
+
+await s3.putBucketPolicy({ Bucket: bucket, Policy: policy }).promise();
+```
+
+### Cloudfront configuration and invalidation
+
+The last step in uploading a site for the first time to aws is configuring the Cloudfront Distribution.
+
+This part is a bit tricky using the node.js sdk, as there is no straight-forward way to update only specific configurations on cloudfront, so first we need to load the whole configuration for the distribution, then updating the part we need:
+
+```ts
+export const configureDistribution = async (cloudfront: AWS.CloudFront, region: string, distribution: string) => {
+  const config = await cloudfront.getDistribution({ Id: distribution }).promise();
+  region;
+
+  if (!config.Distribution) throw new Error('No distribution found');
+
+  const eTag = config.ETag;
+  const errorCodes = [400, 403, 404, 405, 414, 416, 500, 501, 502, 503, 504];
+  const DistributionConfig = {
+    ...config.Distribution?.DistributionConfig,
+    CustomErrorResponses: {
+      Quantity: errorCodes.length,
+      Items: errorCodes.map((code) => ({
+        ErrorCode: code,
+        ResponsePagePath: '/404.html',
+        ResponseCode: String(code),
+        ErrorCachingMinTTL: 10,
+      })),
+    },
+  };
+
+  await cloudfront.updateDistribution({ Id: distribution, IfMatch: eTag, DistributionConfig }).promise();
+};
+```
+
+The whole point of this config update is to ensure that all the error codes get redirected to our custom 404 page - since we have no server we don’t have to worry about creating a 500 page, so we can simply redirect to the same one.
+
+This part won’t connect the distribution to the S3 bucket, that step has to be done manually - as well as setting up the index document for the distribution. There are many great tutorials on the internet about this.
+
+We have only one step left; invalidating the distribution’s cache, so we can make sure we show up-to-date sites to our visitors.
+
+This is relatively straight-forward, using the node.js api:
+
+```ts
+export const invalidate = async (cloudfront: AWS.CloudFront, distribution: string) => {
+  const batch = { CallerReference: `${Date.now()}`, Paths: { Quantity: 1, Items: ['/*'] } };
+  await cloudfront.createInvalidation({ DistributionId: distribution, InvalidationBatch: batch }).promise();
+};
+```
+
+## And that’s it
+
+We have successfully uploaded a site to AWS S3 and configured both the bucket and the cloudfront distribution.
+
+Again, this is not for everyone but I hope I could help, even just a bit.
+
+If you have any questions, feel free to hit me up on [twitter](https://twitter.com/szalayme).
+
+Have a nice and productive day! 🚜

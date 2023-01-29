@@ -1,0 +1,83 @@
+---
+title: "This is a test blog post"
+subtitle: "This is a very test blog post"
+banner: /banners/undirect.png
+date: "2023-01-29"
+---
+
+There are many articles about “serverless” url shortening and redirects but at the end it always turns out to be using some kind of server - in the case of AWS, lambdas.
+
+I was curious if there is a way of creating a url shortening service without using any kind of servers - as in any kind of computers running code written by me - at least for the actual redirects. More on this later.
+
+This won’t be a line-by-line tutorial, I will only describe the basic concept and my though process, occasionally showing couple of code snipets.
+
+## Hosting provider
+
+I decided to go with AWS for this experiment, mainly because it’s the provider I am the most comfortable with, I have used it numerous times for both large and smaller projects.
+
+I have used AWS’ Api Gateway for Undicat, where I managed to process millions on request per second relatively painlessly, which seemed a great starting point for the project.
+
+I chose [serverless](https://serverless.com) as the template engine, mainly because the easy yaml syntax - and because I had an already existing project I wanted to integrate the shortener into.
+
+## Basic logic
+
+With the hosting and configs decided, I started thinking about ways to implement the actual logic.
+
+I needed two separate endpoints, one for creating urls and generating a unique url and an other actually handling the redirects.
+
+![All the endpoints needed for the whole logic](/banners/undirect.png)
+
+The first one was relatively easy; I created a new ApiGateway endpoint, with a Lambda Proxy connected to it. (Yes, for this part I used a lambda function. This is the only part of the application using any kind of servers.)
+
+At this point the function receives a url and an optional key as inputs, generated a random nanoid and only saves everything in a Postgres database, that’s it.
+
+## Redirects
+
+With that out of the way, now I had to come up with a way to handle the redirects.
+
+My first idea was to create a resource and a method for each url and use a simple mock http response for them. However, I quickly realised that it won’t work, unless the used enters the correct url - as it will not follow any kind of redirects. I had to manually enter headers and response codes as well, which, at the time seemed a bit too much, considering that even after setting up all the headers, the redirected url won’t follow the url if it has been moved / redirected.
+
+This was the time I started experimenting with custom integration responses. Since I had some prior knowledge in the matter I managed to quickly create a basic integration request and response.
+
+```velocity
+#set($context.responseOverride.header.location = 'https://szalay.me')##
+#set($context.responseOverride.status = 307)##
+{}
+```
+
+Basically I told the request to always return a 307 status code and include the location header, with the previously set url. With this setup it worked flawlessly - when the user opens the random url Api Gateway automatically uses the correct resource and redirects the user to the specific page.
+
+With one issue: Api Gateway by default only supports 300 resources per Gateway, which isn’t much. Although I could have asked for a limit increase, this wouldn’t scale very well.
+
+Luckily, there is a solution to this as well - including a JSON in the response integration and selecting the correct url from the list. This JSON could be even stored on AWS S3.
+
+However, there is still a small catch: because of the small memory limit of the integration response - 512kb at the time of writing this post, this method can only be used for up to 4000 entries, based on my experiments.
+
+Fortunately, there is a way to solve this issue as well - simply letting the url go through and be handled by an other resource. Since Api Gateway allows us to have multiple catch-all routes under a single path, whenever the 4000-entry-limit is reached, we can simply create a new resource. In theory, with the default 300 resource limit, we could have ~2.000.000 entries.
+
+I decided to stop there for now, as this seemed more than enough for a simple experimental project - although I am pretty sure that there are options to increase this limit even more.
+
+### Now the fun begins
+
+I started the project with absolutely no idea how the node.js AWS SDK handled ApiGateway updates - and it turns out, it’s a huge pain.
+
+The API basically only allows one small update per request, with the creation logic needing more than 150 lines of code - 97% of the whole codebase, only creating and updating ApiGateway resources.
+
+## Trully serverless url shortener
+
+So, that’s it. After 3 hours of development I managed to created a truly serverless url shortener application.
+
+After using it for quite a while now, I came to the following conclusions:
+Is it fast? Yep, it takes less than 40 ms to handle each request. Take that lambda!
+Is it elequant? Nope - I am using solutions I don’t even dare to show you.
+Is is scalable? Heck no - based on the current performance, it would take 800ms to handle requests that are in the last resource.
+
+But it works fine for the purposes I needed it for - to handle url shortening for [undicat.com](https://undicat.com) - such as [https://undi.cat/orm](https://undi.cat/orm)
+
+The great part of using ApiGateway is that we can implement a URL analytics basically free as well, still without using any kind of lambda for the redirects. Although I am planning on writing about this in an other article, soonish.
+
+I hope you liked this quick post about a fun, little, completely useless project.
+
+If you have any questions, suggestions, feel free to hit me up on twitter.
+
+In the meantime, have a nice, productive day! ✌️
