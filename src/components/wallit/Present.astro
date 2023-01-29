@@ -1,0 +1,70 @@
+---
+---
+
+<div class="wrapper" id="present-wrapper">
+  <div class="cards">
+    <img class="collapsed" src="/apps/wallit/present/collapsed.png" alt="" />
+    <img src="/apps/wallit/present/extended.png" alt="" />
+  </div>
+</div>
+
+<script>
+  const wrapper = document.querySelector<HTMLDivElement>("#present-wrapper");
+  if (wrapper) {
+    const _handleScroll = () => {
+      const { top } = wrapper.getBoundingClientRect();
+      const height = window.innerHeight;
+      const min = height * 0.3;
+      const max = height * 0.8;
+      const delta = max - min;
+
+      const state = Math.abs(1 - Math.min(1, Math.max(0, (top - min) / delta)));
+      wrapper.style?.setProperty("--state", state.toString());
+    };
+    window.addEventListener("scroll", _handleScroll);
+  }
+</script>
+
+<style lang="scss">
+  div.wrapper {
+    --height-collapsed: 154px;
+    --height-extended: 240px;
+    --width: 240px;
+    --height-difference: calc(var(--height-extended) - var(--height-collapsed));
+
+    --state: 0;
+
+    width: 100%;
+    height: var(--height-collapsed);
+    display: flex;
+    justify-content: center;
+    transform: translateY(calc(-64px * var(--state) - 96px));
+    div.cards {
+      position: absolute;
+      width: var(--width);
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      transition: 3ms;
+      height: calc(
+        var(--height-collapsed) + var(--height-difference) * var(--state)
+      );
+      transform: scale(calc(1 + var(--state) * 0.2));
+      // &:hover {
+      //   --state: 1;
+      // }
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: var(--width);
+        transition: 320ms;
+        &.collapsed {
+          z-index: 1;
+          opacity: calc(1 - var(--state));
+        }
+      }
+    }
+  }
+</style>

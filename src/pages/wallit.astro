@@ -1,7 +1,35 @@
 ---
+import WallitApple from "../components/wallit/WallitApple.astro";
+import WallitCustomize from "../components/wallit/WallitCustomize.astro";
+import WallitHero from "../components/wallit/WallitHero.astro";
+import WallitPresent from "../components/wallit/WallitPresent.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Wallit">
-  <main>Wallit</main>
+  <main>
+    <WallitHero />
+    <WallitApple />
+    <WallitPresent />
+    <WallitCustomize />
+  </main>
+
+  <!-- <div class="section">
+    <h2>Scan your card</h2>
+    <p>Scan any of your physical cards with a click of a button</p>
+  </div>
+
+  <div class="section">
+    <h2>Syncing</h2>
+    <p>
+      Syncronise all your cards, vouchers and tickets between all your devices
+    </p>
+  </div> -->
 </Layout>
+
+<style lang="scss">
+  @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap");
+  main {
+    font-family: "Roboto Slab", serif;
+  }
+</style>

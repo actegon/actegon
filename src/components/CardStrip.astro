@@ -1,0 +1,84 @@
+---
+type Straps = [string[], string[]];
+const imageList = new Array(8).fill(null);
+const images = imageList.map((_, i) => {
+  return `/apps/wallit/screenshots/image-${i}.png`;
+});
+
+const straps = images.reduce(
+  (acc, image, i) => {
+    acc[i % 2].push(image);
+    return acc;
+  },
+  [[], []] as Straps
+);
+---
+
+<div class="wrapper">
+  <div class="strap">
+    {
+      straps.map((strap) => (
+        <div class="images">
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+          {strap.map((image) => (
+            <img src={image} />
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style lang="scss" define:vars={{ "number-of-images": images.length }}>
+  div.wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+  div.strap {
+    --image-width: 90px;
+    @media screen and (max-width: 640px) {
+      --image-width: 126px;
+    }
+    --image-spacing: 12px;
+    --total-width: calc(
+      ((var(--image-width) + var(--image-spacing)) * var(--number-of-images)) /
+        2
+    );
+    @keyframes images {
+      from {
+        transform: translateX(calc(var(--total-width) * -0.5));
+      }
+      to {
+        transform: translateX(calc(var(--total-width) * -1.5));
+      }
+    }
+
+    transform: translate(calc(var(--x) * 2px), calc(var(--y) * -2px))
+      translateX(50%) rotate(20deg) translateY(20%);
+    // transform: translate(calc(var(--x) * 2px), calc(var(--y) * -2px))
+    //   rotate(23deg) translateY(0%);
+    div.images {
+      animation: images 20s linear infinite;
+      display: flex;
+      &:last-of-type {
+        padding-left: calc(var(--image-width) * 0.8);
+      }
+      img {
+        width: var(--image-width);
+        aspect-ratio: 1/0.6506024096;
+        margin: calc(var(--image-spacing) / 2);
+      }
+    }
+  }
+</style>

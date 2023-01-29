@@ -1,0 +1,31 @@
+---
+import CardStrip from "../CardStrip.astro";
+---
+
+<div class="wrapper">
+  <CardStrip />
+  <div class="section">
+    <h2>Customise</h2>
+    <p>Choose from dozens of templates or customise your card</p>
+  </div>
+</div>
+
+<style lang="scss">
+  div.wrapper {
+    text-align: center;
+    padding-bottom: 64px;
+    margin-bottom: 64px;
+    h2 {
+      width: fit-content;
+      margin: auto;
+      padding-inline: 12px;
+      padding-top: 4px;
+      margin-top: 64px;
+    }
+    p {
+      margin: 0;
+      margin-top: 12px;
+      opacity: 0.8;
+    }
+  }
+</style>

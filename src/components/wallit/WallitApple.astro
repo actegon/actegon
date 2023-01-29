@@ -1,0 +1,71 @@
+<div class="section wallet">
+  <div class="cards">
+    <img src="/apps/wallit/screenshots/image-4.png" alt="card" />
+    <img src="/apps/wallit/screenshots/image-5.png" alt="card" />
+    <img src="/apps/wallit/screenshots/image-6.png" alt="card" />
+    <img src="/apps/wallit/screenshots/image-7.png" alt="card" />
+  </div>
+  <div class="content">
+    <h2>Apple Wallet</h2>
+    <p>Store all your vouchers and tickets in your wallet</p>
+  </div>
+</div>
+
+<style lang="scss">
+  div.wallet {
+    padding-top: 128px;
+    padding-bottom: 200px;
+    background: linear-gradient(var(--colour-foreground) 50%, transparent);
+    text-align: center;
+    border-top: 1px solid var(--colour-border);
+    margin-top: 96px;
+    div.content {
+      z-index: 1;
+      position: relative;
+      background-color: var(--colour-foreground);
+      padding-bottom: 48px;
+      h2 {
+        width: fit-content;
+        margin: auto;
+        padding-inline: 12px;
+        border-top: 1px solid var(--colour-border);
+        padding-top: 4px;
+      }
+      p {
+        margin: 0;
+        margin-top: 12px;
+        opacity: 0.8;
+      }
+    }
+    div.cards {
+      position: relative;
+      img {
+        width: 128px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transition: 320ms;
+        @for $i from 1 through 4 {
+          &:nth-child(#{$i}) {
+            transition-delay: #{($i - 1) * 40}ms;
+            transform: translateX(-50%) translateY(calc(#{$i} * 4px - 24px));
+            // background-color: lighten($base-color, $i * 5%);
+          }
+        }
+      }
+    }
+    &:hover {
+      div.cards {
+        img {
+          @for $i from 1 through 4 {
+            &:nth-child(#{$i}) {
+              transform: translateX(-50%)
+                translateY(calc(#{$i} * 24px - 120px));
+              // background-color: lighten($base-color, $i * 5%);
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
