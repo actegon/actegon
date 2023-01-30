@@ -1,70 +1,89 @@
 ---
 ---
 
-<form id="contact">
+<form action="https://formspree.io/f/xdovadll" method="POST" id="contact">
   <h3>We would love to hear from you, Get in touch 👋</h3>
-  <div class="row">
+  <div class="content">
+    <div id="success-overlay" class="success">
+      <span class="check"></span>
+      <div>
+        <strong>Thank you</strong>
+        <p>We will get back to you soon</p>
+      </div>
+    </div>
+    <div class="row">
+      <label>
+        <span>Your name</span>
+        <input placeholder="John Doe" name="name" type="text" />
+      </label>
+      <label>
+        <span>Your email</span>
+        <input placeholder="john@doe.com" name="email" type="email" />
+      </label>
+    </div>
     <label>
-      <span>Your name</span>
-      <input placeholder="John Doe" name="name" type="text" />
+      <span>Your message to us</span>
+      <textarea placeholder="I want to build a ..." name="message"></textarea>
     </label>
-    <label>
-      <span>Your email</span>
-      <input placeholder="john@doe.com" name="email" type="email" />
-    </label>
-  </div>
-  <label>
-    <span>Your message to us</span>
-    <textarea placeholder="I want to build a ..." name="message"></textarea>
-  </label>
-  <div class="actions">
-    <button type="submit"
-      >Send message
-      <svg width="16px" height="16px" viewBox="0 0 82 82" version="1.1">
-        <g
-          id="Symbols"
-          stroke="none"
-          stroke-width="1"
-          fill="none"
-          fill-rule="evenodd"
-        >
+    <div class="actions">
+      <button type="submit"
+        >Send message
+        <svg width="16px" height="16px" viewBox="0 0 82 82" version="1.1">
           <g
-            id="paperplane.fill"
-            transform="translate(-1407.000000, -622.000000)"
-            fill="white"
-            fill-rule="nonzero"
+            id="Symbols"
+            stroke="none"
+            stroke-width="1"
+            fill="none"
+            fill-rule="evenodd"
           >
-            <g id="Symbols" transform="translate(519.616380, 620.414100)">
-              <g id="Regular-S" transform="translate(887.773000, 1.562500)">
-                <path
-                  d="M48.29102,81.05465 C51.31832,81.05465 53.41792,78.41793 54.98042,74.414025 L79.78512,9.6191 C80.56642,7.666 81.00582,5.9082 81.00582,4.4433 C81.00582,1.7089 79.29682,0 76.61132,0 C75.14652,0 73.38862,0.4882 71.43552,1.2207 L6.20112,26.2695 C2.7832,27.539 -1.77635684e-15,29.6875 -1.77635684e-15,32.7636 C-1.77635684e-15,36.6211 3.02734,37.8906 6.88472,39.0136 L26.36722,44.9707 C29.10152,45.8007 30.51762,45.8007 32.37302,44.0918 L74.70702,4.7851 C75.24412,4.2968 75.87892,4.3945 76.26952,4.7363 C76.70902,5.1269 76.75782,5.8105 76.26952,6.3476 L37.15822,48.8769 C35.54682,50.6347 35.40042,51.9531 36.27932,54.8339 L41.94332,73.779259 C43.11522,77.83199 44.38472,81.05465 48.29102,81.05465 Z"
-                  id="Path"></path>
+            <g
+              id="paperplane.fill"
+              transform="translate(-1407.000000, -622.000000)"
+              fill="white"
+              fill-rule="nonzero"
+            >
+              <g id="Symbols" transform="translate(519.616380, 620.414100)">
+                <g id="Regular-S" transform="translate(887.773000, 1.562500)">
+                  <path
+                    d="M48.29102,81.05465 C51.31832,81.05465 53.41792,78.41793 54.98042,74.414025 L79.78512,9.6191 C80.56642,7.666 81.00582,5.9082 81.00582,4.4433 C81.00582,1.7089 79.29682,0 76.61132,0 C75.14652,0 73.38862,0.4882 71.43552,1.2207 L6.20112,26.2695 C2.7832,27.539 -1.77635684e-15,29.6875 -1.77635684e-15,32.7636 C-1.77635684e-15,36.6211 3.02734,37.8906 6.88472,39.0136 L26.36722,44.9707 C29.10152,45.8007 30.51762,45.8007 32.37302,44.0918 L74.70702,4.7851 C75.24412,4.2968 75.87892,4.3945 76.26952,4.7363 C76.70902,5.1269 76.75782,5.8105 76.26952,6.3476 L37.15822,48.8769 C35.54682,50.6347 35.40042,51.9531 36.27932,54.8339 L41.94332,73.779259 C43.11522,77.83199 44.38472,81.05465 48.29102,81.05465 Z"
+                    id="Path"></path>
+                </g>
               </g>
             </g>
           </g>
-        </g>
-      </svg>
-    </button>
-    <span
-      >or send us an email at <a href="mailto:hello@actegon.com"
-        >hello@actegon.com</a
-      ></span
-    >
+        </svg>
+      </button>
+      <span
+        >or send us an email at <a href="mailto:hello@actegon.com"
+          >hello@actegon.com</a
+        ></span
+      >
+    </div>
   </div>
 </form>
 
 <script>
   const form = document.querySelector("#contact");
+  const overlay = document.querySelector("#success-overlay");
 
   if (form) {
     const _handleSubmit = (event: any) => {
       event.preventDefault();
       event.stopPropagation();
-      const inputs = [...form.querySelectorAll("input,textarea")];
-      const values = inputs.reduce(
-        (acc, input: any) => ({ ...acc, [input.name]: input.value }),
-        {}
-      );
+
+      overlay?.classList?.add("visible");
+      form.classList.add("submitted");
+      const data = new FormData(event.target);
+
+      fetch(event.target.action, {
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then(() => {})
+        .catch(() => {});
 
       // todo: implement sending logic
     };
@@ -81,6 +100,12 @@
     flex-direction: column;
     gap: 16px;
     margin-bottom: 128px;
+    &.submitted {
+      div.content > *:not(.success) {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
     h3 {
       font-size: 32px;
       margin: 0;
@@ -179,6 +204,89 @@
           &:focus {
             text-decoration: underline;
           }
+        }
+      }
+    }
+  }
+  div.content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    & > * {
+      transition: 320ms;
+    }
+  }
+
+  div.success {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 120ms;
+    opacity: 0;
+    visibility: hidden;
+    background-color: var(--colour-background);
+    display: flex;
+    border: 1px solid var(--colour-border);
+    border-radius: 6px;
+    padding-inline: 48px;
+    gap: 36px;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      strong {
+        font-size: 24px;
+      }
+      p {
+        font-weight: 500;
+        font-size: 14px;
+        opacity: 0.8;
+        margin: 0;
+      }
+    }
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    span {
+      width: 48px !important;
+      opacity: 0;
+      height: 48px !important;
+      border-radius: 24px !important;
+      background-color: rgb(34, 219, 105) !important;
+      position: relative !important;
+      transform: rotate(45deg) !important;
+      animation: 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s 1 normal
+        forwards running anim;
+
+      &::after {
+        content: "";
+        visibility: visible !important;
+        animation: 0.15s ease-out 0.45s 1 normal forwards running
+          animation-10zc5ks !important;
+        position: absolute !important;
+        border-right: 4px solid rgb(255, 255, 255) !important;
+        border-bottom: 4px solid rgb(255, 255, 255) !important;
+        border-top-color: rgb(255, 255, 255) !important;
+        border-left-color: rgb(255, 255, 255) !important;
+        bottom: 15px !important;
+        left: 17px !important;
+        height: 20px !important;
+        width: 11px !important;
+        box-sizing: border-box !important;
+      }
+
+      @keyframes anim {
+        0% {
+          opacity: 0;
+          transform: scale(0) rotate(45deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(45deg);
         }
       }
     }
